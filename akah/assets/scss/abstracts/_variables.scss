@@ -1,0 +1,18 @@
+// variable
+:root {
+  --font-body: "Outfit", sans-serif;
+  --font-heading: "Marcellus", serif;
+
+  --color-primary: #9b1a17;
+
+  --color-heading: #131217;
+  --xb-track-color: var(--xb-track-color);
+  --color-dark: #0f172a;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-default: #a8a8a8;
+  --color-gray: #f8f8f8;
+  --color-border: #eff5f8;
+
+  --easing: cubic-bezier(0.67, 0.04, 0.3, 0.91);
+}
