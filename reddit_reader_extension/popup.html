@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        width: 320px;
+        padding: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #ff4500 0%, #ff8717 100%);
+        color: white;
+        margin: 0;
+      }
+      h1 {
+        font-size: 18px;
+        margin: 0 0 15px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .status {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        font-size: 13px;
+      }
+      .controls {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      button {
+        width: 100%;
+        padding: 14px;
+        background: white;
+        color: #ff4500;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+      button:active {
+        transform: translateY(0);
+      }
+      button.active {
+        background: #1a1a1b;
+        color: white;
+      }
+      button.speaking {
+        background: #46d160;
+        color: white;
+        animation: pulse 1.5s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+      .settings {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .setting-group {
+        margin-bottom: 12px;
+      }
+      .setting-group label {
+        display: block;
+        font-size: 12px;
+        margin-bottom: 5px;
+        opacity: 0.9;
+      }
+      select,
+      input[type="range"] {
+        width: 100%;
+        padding: 8px;
+        border-radius: 6px;
+        border: none;
+        background: rgba(255, 255, 255, 0.9);
+        font-size: 13px;
+      }
+      input[type="range"] {
+        padding: 0;
+      }
+      .range-value {
+        display: inline-block;
+        margin-left: 8px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>📖 Reddit Reader</h1>
+
+    <div class="status" id="status"> Detecting Reddit post... </div>
+
+    <div class="controls">
+      <button id="readerBtn">
+        <span>📄</span>
+        <span>Enable Reader Mode</span>
+      </button>
+
+      <button id="speechBtn" disabled>
+        <span>🔊</span>
+        <span>Start Speech</span>
+      </button>
+
+      <button id="stopSpeechBtn" style="display: none">
+        <span>⏹️</span>
+        <span>Stop Speech</span>
+      </button>
+    </div>
+
+    <div class="settings">
+      <div class="setting-group">
+        <label
+          >Speech Rate:
+          <span class="range-value" id="rateValue">1.0x</span></label
+        >
+        <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1" />
+      </div>
+
+      <div class="setting-group">
+        <label>Speech Voice:</label>
+        <select id="voice">
+          <option value="">Default Voice</option>
+        </select>
+      </div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

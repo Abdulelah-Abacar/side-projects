@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "My Cross-Browser Extension",
+  "version": "1.0.0",
+  "description": "A simple extension that works on Chrome, Firefox, Safari, Edge, and Opera",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tts"
+  ],
+  "host_permissions": [
+    "*://*.reddit.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.reddit.com/r/*/comments/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "reader.css"
+      ]
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "my-extension@example.com"
+    }
+  }
+}
