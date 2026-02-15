@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliotheque - Discover, Read, Discuss</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c1810;
+            --secondary: #8b4513;
+            --accent: #d4a574;
+            --cream: #f5f1e8;
+            --paper: #faf8f3;
+            --ink: #1a1410;
+            --shadow: rgba(44, 24, 16, 0.15);
+            --shadow-heavy: rgba(44, 24, 16, 0.25);
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #faf8f3 0%, #f0ebe0 100%);
+            color: var(--ink);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Decorative background elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -30%;
+            left: -10%;
+            width: 60%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(139, 69, 19, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #root {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(to bottom, rgba(250, 248, 243, 0.95), rgba(250, 248, 243, 0.85));
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--accent);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: -0.03em;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: '📚';
+            font-size: 2rem;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            font-size: 1.1rem;
+            color: var(--primary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .nav-link:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Hero section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+            font-style: italic;
+        }
+
+        /* Search bar */
+        .search-section {
+            max-width: 900px;
+            margin: 3rem auto;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1.2rem 1.5rem;
+            font-size: 1.1rem;
+            font-family: 'Crimson Text', serif;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            background: white;
+            color: var(--ink);
+            box-shadow: 0 4px 15px var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 6px 25px var(--shadow-heavy);
+            transform: translateY(-2px);
+        }
+
+        .search-btn {
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--shadow-heavy);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 0.7rem 1.5rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            background: white;
+            color: var(--secondary);
+            border: 2px solid var(--accent);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab:hover, .filter-tab.active {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        /* Books grid */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px) rotate(1deg);
+            box-shadow: 0 12px 40px var(--shadow-heavy);
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .book-card:hover .book-cover img {
+            transform: scale(1.05);
+        }
+
+        .book-info {
+            padding: 1.5rem;
+        }
+
+        .book-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .book-author {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+
+        .book-source {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: var(--accent);
+            color: white;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 20, 16, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 2rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            max-width: 1000px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.4s ease-out;
+            position: relative;
+        }
+
+        .modal-header {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 2rem;
+            border-bottom: 2px solid var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            z-index: 10;
+        }
+
+        .modal-close {
+            background: var(--cream);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: var(--accent);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .modal-content {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+        }
+
+        .modal-cover {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px var(--shadow);
+        }
+
+        .modal-details h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .modal-author {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            padding: 0.5rem 1rem;
+            background: var(--cream);
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .modal-description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            color: var(--ink);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-btn {
+            padding: 1rem 2rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-btn-primary {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+        }
+
+        .action-btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--accent);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px var(--shadow);
+        }
+
+        /* Discussion section */
+        .discussion-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--cream);
+        }
+
+        .discussion-section h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .comment-form {
+            margin-bottom: 2rem;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 1rem;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+            border: 2px solid var(--accent);
+            border-radius: 10px;
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 1rem;
+        }
+
+        .comment-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .comment {
+            padding: 1.5rem;
+            background: var(--cream);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .comment-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--ink);
+        }
+
+        .comment-date {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* Loading state */
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            font-size: 1.5rem;
+            color: var(--secondary);
+            font-style: italic;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem;
+        }
+
+        .empty-state h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .empty-state p {
+            font-size: 1.2rem;
+            color: var(--ink);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .modal-content {
+                grid-template-columns: 1fr;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+
+            .nav {
+                gap: 1rem;
+            }
+
+            .nav-link {
+                font-size: 1rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        /* Reader view */
+        .reader-view {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 50px var(--shadow);
+        }
+
+        .reader-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--cream);
+        }
+
+        .reader-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .reader-author {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            font-style: italic;
+        }
+
+        .reader-content {
+            font-size: 1.3rem;
+            line-height: 2;
+            color: var(--ink);
+            text-align: justify;
+        }
+
+        .reader-content p {
+            margin-bottom: 1.5rem;
+            text-indent: 2rem;
+        }
+
+        .reader-content p:first-of-type::first-letter {
+            font-size: 4rem;
+            font-weight: 700;
+            float: left;
+            line-height: 1;
+            margin: 0.1rem 0.5rem 0 0;
+            color: var(--secondary);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--cream);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Configuration
+        const API_BASE_URL = 'http://localhost:8000';
+
+        // Main App Component
+        function App() {
+            const [view, setView] = useState('home'); // 'home', 'reader'
+            const [books, setBooks] = useState([]);
+            const [loading, setLoading] = useState(false);
+            const [selectedBook, setSelectedBook] = useState(null);
+            const [searchQuery, setSearchQuery] = useState('');
+            const [activeFilter, setActiveFilter] = useState('all');
+            const [comments, setComments] = useState({});
+            const [newComment, setNewComment] = useState('');
+
+            // Search books
+            const searchBooks = async (query, source = 'all') => {
+                if (!query.trim()) return;
+                
+                setLoading(true);
+                try {
+                    let url;
+                    if (source === 'all') {
+                        url = `${API_BASE_URL}/api/v1/search/all?q=${encodeURIComponent(query)}&limit=20`;
+                    } else {
+                        url = `${API_BASE_URL}/api/v1/${source}/search?q=${encodeURIComponent(query)}&limit=20`;
+                    }
+                    
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    setBooks(data.books || []);
+                } catch (error) {
+                    console.error('Error searching books:', error);
+                    alert('Error connecting to API. Make sure the backend is running at http://localhost:8000');
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            // Load popular books on mount
+            useEffect(() => {
+                const loadPopularBooks = async () => {
+                    setLoading(true);
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/api/v1/gutenberg/popular?limit=20`);
+                        const data = await response.json();
+                        setBooks(data.books || []);
+                    } catch (error) {
+                        console.error('Error loading popular books:', error);
+                    } finally {
+                        setLoading(false);
+                    }
+                };
+                
+                loadPopularBooks();
+            }, []);
+
+            // Handle search
+            const handleSearch = (e) => {
+                e.preventDefault();
+                searchBooks(searchQuery, activeFilter);
+            };
+
+            // Handle filter change
+            const handleFilterChange = (filter) => {
+                setActiveFilter(filter);
+                if (searchQuery) {
+                    searchBooks(searchQuery, filter);
+                }
+            };
+
+            // Open book modal
+            const openBook = (book) => {
+                setSelectedBook(book);
+                // Load comments for this book
+                const bookId = book.id;
+                if (!comments[bookId]) {
+                    setComments({
+                        ...comments,
+                        [bookId]: []
+                    });
+                }
+            };
+
+            // Close modal
+            const closeModal = () => {
+                setSelectedBook(null);
+                setNewComment('');
+            };
+
+            // Add comment
+            const addComment = () => {
+                if (!newComment.trim() || !selectedBook) return;
+                
+                const bookId = selectedBook.id;
+                const comment = {
+                    id: Date.now(),
+                    author: 'Anonymous Reader',
+                    text: newComment,
+                    date: new Date().toLocaleDateString()
+                };
+                
+                setComments({
+                    ...comments,
+                    [bookId]: [...(comments[bookId] || []), comment]
+                });
+                
+                setNewComment('');
+            };
+
+            // Read book
+            const readBook = (book) => {
+                setSelectedBook(book);
+                setView('reader');
+            };
+
+            if (view === 'reader') {
+                return <ReaderView book={selectedBook} onBack={() => setView('home')} />;
+            }
+
+            return (
+                <>
+                    <Header />
+                    
+                    <div className="container">
+                        <div className="hero">
+                            <h1>Bibliotheque</h1>
+                            <p>Discover thousands of free books. Read, discuss, and explore.</p>
+                        </div>
+
+                        <div className="search-section">
+                            <form className="search-container" onSubmit={handleSearch}>
+                                <input
+                                    type="text"
+                                    className="search-input"
+                                    placeholder="Search for books, authors, or topics..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                                <button type="submit" className="search-btn">
+                                    Search
+                                </button>
+                            </form>
+
+                            <div className="filter-tabs">
+                                <button 
+                                    className={`filter-tab ${activeFilter === 'all' ? 'active' : ''}`}
+                                    onClick={() => handleFilterChange('all')}
+                                >
+                                    All Sources
+                                </button>
+                                <button 
+                                    className={`filter-tab ${activeFilter === 'openlibrary' ? 'active' : ''}`}
+                                    onClick={() => handleFilterChange('openlibrary')}
+                                >
+                                    Open Library
+                                </button>
+                                <button 
+                                    className={`filter-tab ${activeFilter === 'gutenberg' ? 'active' : ''}`}
+                                    onClick={() => handleFilterChange('gutenberg')}
+                                >
+                                    Gutenberg
+                                </button>
+                                <button 
+                                    className={`filter-tab ${activeFilter === 'googlebooks' ? 'active' : ''}`}
+                                    onClick={() => handleFilterChange('googlebooks')}
+                                >
+                                    Google Books
+                                </button>
+                            </div>
+                        </div>
+
+                        {loading ? (
+                            <div className="loading">Loading books...</div>
+                        ) : books.length === 0 ? (
+                            <div className="empty-state">
+                                <h3>No books found</h3>
+                                <p>Try searching for something else or explore popular books</p>
+                            </div>
+                        ) : (
+                            <div className="books-grid">
+                                {books.map((book, index) => (
+                                    <BookCard 
+                                        key={book.id || index} 
+                                        book={book} 
+                                        onClick={() => openBook(book)}
+                                        style={{ animationDelay: `${index * 0.05}s` }}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {selectedBook && (
+                        <BookModal 
+                            book={selectedBook}
+                            comments={comments[selectedBook.id] || []}
+                            newComment={newComment}
+                            setNewComment={setNewComment}
+                            addComment={addComment}
+                            onClose={closeModal}
+                            onRead={() => readBook(selectedBook)}
+                        />
+                    )}
+                </>
+            );
+        }
+
+        // Header Component
+        function Header() {
+            return (
+                <header className="header">
+                    <div className="header-content">
+                        <a href="#" className="logo">Bibliotheque</a>
+                        <nav className="nav">
+                            <a href="#" className="nav-link">Browse</a>
+                            <a href="#" className="nav-link">Collections</a>
+                            <a href="#" className="nav-link">Discussions</a>
+                        </nav>
+                    </div>
+                </header>
+            );
+        }
+
+        // Book Card Component
+        function BookCard({ book, onClick, style }) {
+            const coverUrl = book.cover?.medium || book.cover?.large || book.thumbnail;
+            
+            return (
+                <div className="book-card" onClick={onClick} style={style}>
+                    <div className="book-cover">
+                        {coverUrl ? (
+                            <img src={coverUrl} alt={book.title} />
+                        ) : (
+                            '📖'
+                        )}
+                    </div>
+                    <div className="book-info">
+                        <h3 className="book-title">{book.title}</h3>
+                        <p className="book-author">
+                            {book.authors?.join(', ') || 'Unknown Author'}
+                        </p>
+                        <span className="book-source">{book.source}</span>
+                    </div>
+                </div>
+            );
+        }
+
+        // Book Modal Component
+        function BookModal({ book, comments, newComment, setNewComment, addComment, onClose, onRead }) {
+            const coverUrl = book.cover?.large || book.cover?.medium || book.thumbnail;
+            
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <div style={{ flex: 1 }}></div>
+                            <button className="modal-close" onClick={onClose}>×</button>
+                        </div>
+
+                        <div className="modal-content">
+                            <div>
+                                {coverUrl ? (
+                                    <img src={coverUrl} alt={book.title} className="modal-cover" />
+                                ) : (
+                                    <div className="modal-cover" style={{ 
+                                        background: 'linear-gradient(135deg, var(--cream) 0%, var(--accent) 100%)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        fontSize: '6rem'
+                                    }}>
+                                        📖
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="modal-details">
+                                <h2>{book.title}</h2>
+                                <p className="modal-author">
+                                    {book.authors?.join(', ') || 'Unknown Author'}
+                                </p>
+
+                                <div className="modal-meta">
+                                    <span className="meta-item">📚 {book.source}</span>
+                                    {book.published_date && (
+                                        <span className="meta-item">📅 {book.published_date}</span>
+                                    )}
+                                    {book.pages && (
+                                        <span className="meta-item">📄 {book.pages} pages</span>
+                                    )}
+                                    {book.language && (
+                                        <span className="meta-item">🌐 {book.language}</span>
+                                    )}
+                                </div>
+
+                                <p className="modal-description">
+                                    {book.description || 'No description available for this book.'}
+                                </p>
+
+                                <div className="action-buttons">
+                                    <button className="action-btn action-btn-primary" onClick={onRead}>
+                                        📖 Read Now
+                                    </button>
+                                    {book.formats && book.formats.length > 0 && (
+                                        <a 
+                                            href={book.formats[0].url} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="action-btn action-btn-secondary"
+                                            style={{ textDecoration: 'none' }}
+                                        >
+                                            ⬇️ Download
+                                        </a>
+                                    )}
+                                </div>
+
+                                <div className="discussion-section">
+                                    <h3>💬 Discussion</h3>
+                                    
+                                    <div className="comment-form">
+                                        <textarea
+                                            className="comment-input"
+                                            placeholder="Share your thoughts about this book..."
+                                            value={newComment}
+                                            onChange={(e) => setNewComment(e.target.value)}
+                                        />
+                                        <button className="action-btn action-btn-primary" onClick={addComment}>
+                                            Post Comment
+                                        </button>
+                                    </div>
+
+                                    <div className="comments-list">
+                                        {comments.length === 0 ? (
+                                            <p style={{ fontStyle: 'italic', color: 'var(--secondary)' }}>
+                                                No comments yet. Be the first to share your thoughts!
+                                            </p>
+                                        ) : (
+                                            comments.map(comment => (
+                                                <div key={comment.id} className="comment">
+                                                    <div className="comment-author">{comment.author}</div>
+                                                    <div className="comment-text">{comment.text}</div>
+                                                    <div className="comment-date">{comment.date}</div>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Reader View Component
+        function ReaderView({ book, onBack }) {
+            return (
+                <div className="reader-view">
+                    <a href="#" className="back-btn" onClick={(e) => { e.preventDefault(); onBack(); }}>
+                        ← Back to Library
+                    </a>
+
+                    <div className="reader-header">
+                        <h1 className="reader-title">{book.title}</h1>
+                        <p className="reader-author">{book.authors?.join(', ') || 'Unknown Author'}</p>
+                    </div>
+
+                    <div className="reader-content">
+                        <p>
+                            In the quiet corners of vast libraries and the endless digital shelves of the internet, 
+                            stories await discovery. Each book holds within it worlds unexplored, characters yearning 
+                            to be known, and ideas ready to transform minds.
+                        </p>
+                        <p>
+                            This particular volume, "{book.title}", is one such treasure. Its pages contain the careful 
+                            work of {book.authors?.[0] || 'an author'}, who poured thought and creativity into every word.
+                        </p>
+                        <p>
+                            {book.description || 'The story unfolds in ways both expected and surprising, taking readers on a journey through imagination and insight.'}
+                        </p>
+                        <p>
+                            To truly experience this work, you can download it from the available formats or access it 
+                            through the original source. The full text awaits your exploration, ready to transport you 
+                            to new realms of understanding and entertainment.
+                        </p>
+                        <p style={{ textAlign: 'center', fontStyle: 'italic', color: 'var(--secondary)', marginTop: '3rem' }}>
+                            📚 Use the download button to get the full text in your preferred format. 📚
+                        </p>
+                    </div>
+                </div>
+            );
+        }
+
+        // Render App
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
